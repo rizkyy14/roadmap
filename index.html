@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kurikulum Elektro dengan Garis Prasyarat</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f8fafc;
+        padding: 40px;
+        overflow-x: auto;
+      }
+
+      /* Container utama pembungkus seluruh elemen */
+      .roadmap-wrapper {
+        position: relative;
+        min-width: 1700px;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      /* SVG layer untuk menggambar garis */
+      #svg-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Supaya kotak di bawahnya tetap bisa diklik */
+        z-index: 1;
+      }
+
+      /* Grid utama 8 Semester */
+      .roadmap-grid {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 25px;
+        position: relative;
+        z-index: 2; /* Berada di atas SVG */
+      }
+
+      /* Header Semester */
+      .semester-header {
+        text-align: center;
+        font-weight: bold;
+        font-size: 15px;
+        padding: 10px;
+        background-color: #f1f5f9;
+        border: 2px solid #cbd5e1;
+        border-radius: 6px;
+        margin-bottom: 30px;
+        color: #1e293b;
+      }
+
+      /* Kolom Tiap Semester */
+      .semester-column {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      /* Kotak Mata Kuliah */
+      .course-box {
+        background-color: #ffffff;
+        border: 1.5px solid #64748b;
+        border-radius: 4px;
+        padding: 10px 6px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 500;
+        color: #334155;
+        min-height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        position: relative;
+      }
+
+      /* Highlight saat hover */
+      .course-box:hover {
+        border-color: #2563eb;
+        background-color: #eff6ff;
+        color: #2563eb;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+      }
+
+      /* Pengaturan jarak custom vertikal agar mirip dengan layout gambar */
+      .gap-large {
+        margin-bottom: 40px;
+      }
+      .gap-medium {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="roadmap-wrapper" id="canvas-container">
+      <svg id="svg-canvas">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8" />
+          </marker>
+        </defs>
+      </svg>
+
+      <div class="roadmap-grid">
+        <div class="semester-column">
+          <div class="semester-header">Semester 1</div>
+          <div class="course-box" id="etika">Etika dan Budaya<br />Sumatera Utara</div>
+          <div class="course-box" id="fisika">Fisika Terapan</div>
+          <div class="course-box" id="mattek1">Matematika Teknik 1</div>
+          <div class="course-box" id="kimia">Kimia</div>
+          <div class="course-box" id="rancangan1">Rancangan Listrik 1</div>
+          <div class="course-box" id="gambar">Gambar Teknik</div>
+          <div class="course-box" id="rangkaian1">Rangkaian Listrik 1</div>
+          <div class="course-box" id="instalasi1">Instalasi Listrik 1</div>
+          <div class="course-box" id="instrumen">Instrumentasi</div>
+          <div class="course-box" id="prakmekanik">Praktek Dasar<br />Teknologi Mekanik</div>
+        </div>
+
+        <div class="semester-column">
+          <div class="semester-header">Semester 2</div>
+          <div class="course-box" id="agama">Agama</div>
+          <div class="course-box" id="bing1">Bahasa Inggris<br />Teknik 1</div>
+          <div class="course-box" id="mattek2">Matematika Teknik 2</div>
+          <div class="course-box" id="rangkaian2">Rangkai Listrik 2</div>
+          <div class="course-box" id="ilmu_bahan">Ilmu Bahan</div>
+          <div class="course-box" id="instalasi2">Instalasi Listrik 2</div>
+          <div class="course-box" id="rancangan2">Rancangan Listrik 2</div>
+          <div class="course-box" id="rangk_elektronika">Rangkaian Elektronika</div>
+          <div class="course-box" id="prak_listrik_dasar">Praktikum Listrik Dasar</div>
+          <div class="course-box" id="prak_instalasi1">Praktik Instalasi<br />Kelistrikan 1</div>
+        </div>
+
+        <div class="semester-column">
+          <div class="semester-header">Semester 3</div>
+          <div class="course-box" id="pancasila">Pancasila</div>
+          <div class="course-box" id="bing2">Bahasa Inggris<br />Teknik 2</div>
+          <div class="course-box" id="eldi">Elektronika Digital</div>
+          <div class="course-box" id="inst_panel_dist">Instalasi Panel Distribusi</div>
+          <div class="course-box" id="ranc_panel_dist">Rancangan Panel Distribusi</div>
+          <div class="course-box" id="motor_listrik">Motor-motor Listrik</div>
+          <div class="course-box" id="tek_baterai">Teknologi Baterai</div>
+          <div class="course-box" id="algo">Algoritma dan Pemrograman</div>
+          <div class="course-box" id="prak_elektronika">Praktikum Elektronika</div>
+          <div class="course-box" id="prak_instalasi2">Praktik Instalasi<br />Kelistrikan 2</div>
+        </div>
+
+        <div class="semester-column">
+          <div class="semester-header">Semester 4</div>
+          <div class="course-box" id="kwn">Kewarga-negaraan</div>
+          <div class="course-box" id="solar_sel">Instalasi Panel Solar Sel</div>
+          <div class="course-box" id="pembangkit">Pembangkit Tenaga Listrik</div>
+          <div class="course-box" id="elda">Elektronika Daya</div>
+          <div class="course-box" id="pengaturan_motor">Penggunaan dan Pengaturan Motor Listrik</div>
+          <div class="course-box" id="iot">Aplikasi Internet of Things</div>
+          <div class="course-box" id="inovasi_digital">Inovasi Teknologi Digital</div>
+          <div class="course-box" id="prak_motor">Praktikum Motor - Motor Listrik</div>
+          <div class="course-box" id="prak_inst_industri">Praktik Instalasi Industri</div>
+        </div>
+
+        <div class="semester-column">
+          <div class="semester-header">Semester 5</div>
+          <div class="course-box" id="bindonesia">Bahasa Indonesia</div>
+          <div class="course-box" id="distribusi">Distribusi Tenaga Listrik</div>
+          <div class="course-box" id="sistem_kendali">Sistem Kendali</div>
+          <div class="course-box" id="utilitas">Instalasi Utilitas Industri dan Komersial</div>
+          <div class="course-box" id="mikro">Sistem Mikrokontroler</div>
+          <div class="course-box" id="konverter">Teknologi Konverter</div>
+          <div class="course-box" id="prak_elda">Praktikum Elektronika Daya dan Pengaturan</div>
+          <div class="course-box" id="prak_rawat">Praktik Pemeliharaan dan Perbaikan</div>
+        </div>
+
+        <div class="semester-column">
+          <div class="semester-header">Semester 6</div>
+          <div class="course-box" id="mandarin">Bahasa Mandarin</div>
+          <div class="course-box" id="manajemen_energi">Manajemen Energi Listrik</div>
+          <div class="course-box" id="panel_surya">Sistem Panel Surya</div>
+          <div class="course-box" id="konversi_energi">Konversi Energi Listrik</div>
+          <div class="course-box" id="adaptif_digital">Teknologi Adaptif Digitalisasi</div>
+          <div class="course-box" id="storage">Teknologi Penyimpanan Energi Listrik</div>
+          <div class="course-box" id="prak_storage">Praktikum Sistem Penyimpanan Energi Listrik</div>
+          <div class="course-box" id="prak_ebt">Praktik Instalasi Tegangan Menengah & EBT</div>
+        </div>
+
+        <div class="semester-column">
+          <div class="semester-header">Semester 7</div>
+          <div class="course-box" id="karya_ilmiah">Penulisan Karya Ilmiah</div>
+          <div class="course-box" id="inovasi_projek">Inovasi Projek</div>
+          <div class="course-box" id="wirausaha">Kewirausahaan</div>
+          <div class="course-box" id="etika_profesi">Etika Profesi</div>
+          <div class="course-box" id="k3lh">Keselamatan, Kesehatan Kerja dan Lingkungan</div>
+          <div class="course-box" id="man_projek">Manajemen Proyek</div>
+          <div class="course-box" id="man_operasi">Manajemen Operasi Ketenagalistrikan</div>
+        </div>
+
+        <div class="semester-column">
+          <div class="semester-header">Semester 8</div>
+          <div class="course-box gap-large" id="magang">Magang Industri</div>
+          <div class="course-box gap-large" id="skripsi">Skripsi</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Fungsi cerdas untuk menghubungkan 2 kotak mata kuliah menggunakan ID elemen HTML
+      function buatGarisHubung(idDari, idKe) {
+        const dariElemen = document.getElementById(idDari);
+        const keElemen = document.getElementById(idKe);
+        const svg = document.getElementById('svg-canvas');
+        const wrapper = document.getElementById('canvas-container');
+
+        if (!dariElemen || !keElemen) return;
+
+        // Mengambil posisi kotak relatif terhadap container bungkusannya
+        const rectWrapper = wrapper.getBoundingClientRect();
+        const rectDari = dariElemen.getBoundingClientRect();
+        const rectKe = keElemen.getBoundingClientRect();
+
+        // Titik start di TENGAH KANAN kotak asal
+        const x1 = rectDari.right - rectWrapper.left;
+        const y1 = rectDari.top + rectDari.height / 2 - rectWrapper.top;
+
+        // Titik end di TENGAH KIRI kotak tujuan
+        const x2 = rectKe.left - rectWrapper.left;
+        const y2 = rectKe.top + rectKe.height / 2 - rectWrapper.top;
+
+        // Membuat element garis patah-patah (Polyline) agar jalurnya ber-siku rapi seperti di gambar asli
+        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+
+        // Mengatur jalur belokan tengah (Z-shape routing)
+        const xMid = x1 + (x2 - x1) / 2;
+        const poin = `${x1},${y1} ${xMid},${y1} ${xMid},${y2} ${x2},${y2}`;
+
+        polyline.setAttribute('points', poin);
+        polyline.setAttribute('stroke', '#94a3b8');
+        polyline.setAttribute('stroke-width', '1.5');
+        polyline.setAttribute('fill', 'none');
+        polyline.setAttribute('marker-end', 'url(#arrow)'); // Menambahkan mata panah
+
+        svg.appendChild(polyline);
+      }
+
+      // Fungsi inisialisasi penggambaran semua relasi garis
+      function gambarSemuaGaris() {
+        // Kosongkan kanvas dulu sebelum digambar ulang (mencegah duplikasi saat resize)
+        const svg = document.getElementById('svg-canvas');
+        const markers = svg.querySelector('defs');
+        svg.innerHTML = '';
+        svg.appendChild(markers);
+
+        // --- DAFTAR RELASI GARIS (Sesuai Gambar Prasyarat Anda) ---
+
+        // Alur Utama Bagian Atas (MK Umum)
+        buatGarisHubung('etika', 'agama');
+        buatGarisHubung('agama', 'pancasila');
+        buatGarisHubung('pancasila', 'kwn');
+        buatGarisHubung('kwn', 'bindonesia');
+        buatGarisHubung('bindonesia', 'mandarin');
+        buatGarisHubung('mandarin', 'karya_ilmiah');
+        buatGarisHubung('karya_ilmiah', 'magang');
+
+        // Alur Matematika & Rangkaian
+        buatGarisHubung('mattek1', 'mattek2');
+        buatGarisHubung('mattek2', 'eldi');
+        buatGarisHubung('rangkaian1', 'rangkaian2');
+        buatGarisHubung('rangkaian2', 'rangk_elektronika');
+        buatGarisHubung('rangk_elektronika', 'prak_elektronika');
+        buatGarisHubung('prak_elektronika', 'elda');
+
+        // Alur Instalasi & Distribusi
+        buatGarisHubung('instalasi1', 'instalasi2');
+        buatGarisHubung('instalasi2', 'inst_panel_dist');
+        buatGarisHubung('inst_panel_dist', 'solar_sel');
+        buatGarisHubung('solar_sel', 'distribusi');
+        buatGarisHubung('distribusi', 'manajemen_energi');
+
+        // Alur Sistem Kendali & IoT
+        buatGarisHubung('algo', 'iot');
+        buatGarisHubung('iot', 'mikro');
+        buatGarisHubung('mikro', 'adaptif_digital');
+        buatGarisHubung('sistem_kendali', 'panel_surya');
+
+        // Menuju Skripsi (Semester 8)
+        buatGarisHubung('inovasi_projek', 'skripsi');
+        buatGarisHubung('man_projek', 'skripsi');
+        buatGarisHubung('wirausaha', 'skripsi');
+        buatGarisHubung('man_operasi', 'skripsi');
+        buatGarisHubung('storage', 'skripsi');
+      }
+
+      // Gambar garis pertama kali saat web dibuka
+      window.addEventListener('load', gambarSemuaGaris);
+
+      // Otomatis gambar ulang kalau ukuran layar browser diubah (Responsive)
+      window.addEventListener('resize', gambarSemuaGaris);
+    </script>
+  </body>
+</html>
