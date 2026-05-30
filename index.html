@@ -3,307 +3,531 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kurikulum Elektro dengan Garis Prasyarat</title>
+    <title>Jejaring Mata Kuliah - Sarjana Terapan TRIL</title>
     <style>
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       }
 
       body {
-        background-color: #f8fafc;
+        background-color: #f1f5f9;
         padding: 40px;
         overflow-x: auto;
       }
 
-      /* Container utama pembungkus seluruh elemen */
-      .roadmap-wrapper {
+      /* Ukuran container dipertinggi dari 1100px ke 1180px agar bagian bawah tidak terpotong saat digeser */
+      .roadmap-container {
         position: relative;
-        min-width: 1700px;
+        width: 2650px;
+        height: 1180px;
         background: #ffffff;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
       }
 
-      /* SVG layer untuk menggambar garis */
-      #svg-canvas {
+      /* Judul Kolom Semester aman di area atas tanpa gangguan garis */
+      .semester-header {
+        position: absolute;
+        width: 180px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 13px;
+        padding: 8px 0;
+        background-color: #f8fafc;
+        border: 2px solid #cbd5e1;
+        border-radius: 4px;
+        color: #0f172a;
+        top: 20px; /* Posisi header yang rapi di area atas */
+        z-index: 10;
+      }
+
+      /* WRAPPER BARU: Menggeser seluruh konten jejaring ke bawah sebesar 75px */
+      .roadmap-content {
+        position: absolute;
+        top: 75px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* SVG Canvas murni sebagai background sikit di dalam wrapper */
+      .svg-canvas {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        pointer-events: none; /* Supaya kotak di bawahnya tetap bisa diklik */
         z-index: 1;
       }
 
-      /* Grid utama 8 Semester */
-      .roadmap-grid {
-        display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        gap: 25px;
-        position: relative;
-        z-index: 2; /* Berada di atas SVG */
-      }
-
-      /* Header Semester */
-      .semester-header {
-        text-align: center;
-        font-weight: bold;
-        font-size: 15px;
-        padding: 10px;
-        background-color: #f1f5f9;
-        border: 2px solid #cbd5e1;
-        border-radius: 6px;
-        margin-bottom: 30px;
-        color: #1e293b;
-      }
-
-      /* Kolom Tiap Semester */
-      .semester-column {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      /* Kotak Mata Kuliah */
+      /* Kotak Mata Kuliah (Layer Depan - Menutupi Garis) */
       .course-box {
+        position: absolute;
+        width: 180px;
+        height: 50px;
         background-color: #ffffff;
-        border: 1.5px solid #64748b;
-        border-radius: 4px;
-        padding: 10px 6px;
+        border: 1.5px solid #475569;
+        border-radius: 5px;
+        padding: 4px 8px;
         text-align: center;
-        font-size: 12px;
-        font-weight: 500;
-        color: #334155;
-        min-height: 55px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #1e293b;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s ease;
-        position: relative;
+        z-index: 2;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
       }
 
-      /* Highlight saat hover */
-      .course-box:hover {
-        border-color: #2563eb;
-        background-color: #eff6ff;
-        color: #2563eb;
-        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+      /* TATA LETAK KOLOM X */
+      .sem-1 {
+        left: 40px;
+      }
+      .sem-2 {
+        left: 370px;
+      }
+      .sem-3 {
+        left: 700px;
+      }
+      .sem-4 {
+        left: 1030px;
+      }
+      .sem-5 {
+        left: 1360px;
+      }
+      .sem-6 {
+        left: 1690px;
+      }
+      .sem-7 {
+        left: 2020px;
+      }
+      .sem-8 {
+        left: 2350px;
       }
 
-      /* Pengaturan jarak custom vertikal agar mirip dengan layout gambar */
-      .gap-large {
-        margin-bottom: 40px;
+      /* TATA LETAK BARIS Y */
+      .row-1 {
+        top: 95px;
       }
-      .gap-medium {
-        margin-bottom: 20px;
+      .row-2 {
+        top: 185px;
+      }
+      .row-3 {
+        top: 275px;
+      }
+      .row-4 {
+        top: 365px;
+      }
+      .row-5 {
+        top: 455px;
+      }
+      .row-6 {
+        top: 545px;
+      }
+      .row-7 {
+        top: 635px;
+      }
+      .row-8 {
+        top: 725px;
+      }
+      .row-9 {
+        top: 815px;
+      }
+      .row-10 {
+        top: 905px;
       }
     </style>
   </head>
   <body>
-    <div class="roadmap-wrapper" id="canvas-container">
-      <svg id="svg-canvas">
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8" />
-          </marker>
-        </defs>
-      </svg>
+    <div class="roadmap-container">
+      <div class="semester-header sem-1">Semester I</div>
+      <div class="semester-header sem-2">Semester II</div>
+      <div class="semester-header sem-3">Semester III</div>
+      <div class="semester-header sem-4">Semester IV</div>
+      <div class="semester-header sem-5">Semester V</div>
+      <div class="semester-header sem-6">Semester VI</div>
+      <div class="semester-header sem-7">Semester VII</div>
+      <div class="semester-header sem-8">Semester VIII</div>
 
-      <div class="roadmap-grid">
-        <div class="semester-column">
-          <div class="semester-header">Semester 1</div>
-          <div class="course-box" id="etika">Etika dan Budaya<br />Sumatera Utara</div>
-          <div class="course-box" id="fisika">Fisika Terapan</div>
-          <div class="course-box" id="mattek1">Matematika Teknik 1</div>
-          <div class="course-box" id="kimia">Kimia</div>
-          <div class="course-box" id="rancangan1">Rancangan Listrik 1</div>
-          <div class="course-box" id="gambar">Gambar Teknik</div>
-          <div class="course-box" id="rangkaian1">Rangkaian Listrik 1</div>
-          <div class="course-box" id="instalasi1">Instalasi Listrik 1</div>
-          <div class="course-box" id="instrumen">Instrumentasi</div>
-          <div class="course-box" id="prakmekanik">Praktek Dasar<br />Teknologi Mekanik</div>
-        </div>
+      <div class="roadmap-content">
+        <svg class="svg-canvas">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#475569" />
+            </marker>
+          </defs>
 
-        <div class="semester-column">
-          <div class="semester-header">Semester 2</div>
-          <div class="course-box" id="agama">Agama</div>
-          <div class="course-box" id="bing1">Bahasa Inggris<br />Teknik 1</div>
-          <div class="course-box" id="mattek2">Matematika Teknik 2</div>
-          <div class="course-box" id="rangkaian2">Rangkai Listrik 2</div>
-          <div class="course-box" id="ilmu_bahan">Ilmu Bahan</div>
-          <div class="course-box" id="instalasi2">Instalasi Listrik 2</div>
-          <div class="course-box" id="rancangan2">Rancangan Listrik 2</div>
-          <div class="course-box" id="rangk_elektronika">Rangkaian Elektronika</div>
-          <div class="course-box" id="prak_listrik_dasar">Praktikum Listrik Dasar</div>
-          <div class="course-box" id="prak_instalasi1">Praktik Instalasi<br />Kelistrikan 1</div>
-        </div>
+          <g stroke="#94a3b8" stroke-width="1.3" fill="none">
+            <path d="M 40,120 L 20,120 L 20,210 L 25,210" />
+            <path d="M 40,215 L 10,215 L 10,120 L 25,120" />
+            <path d="M 40,300 L 25,300 L 25,390 L 25,390" />
+            <path d="M 40,395 L 15,395 L 15,300 L 25,300" />
+            <path d="M 40,305 L 5,305 L 5,570 L 25,570" />
+            <path d="M 40,390 L 15,390 L 15,570 L 25,570" />
+            <path d="M 40,480 L 25,480 L 25,570 L 25,570" />
+            <path d="M 40,660 L 25,660 L 25,750 L 25,750" />
+            <path d="M 40,755 L 15,755 L 15,660 L 25,660" />
+            <path d="M 40,840 L 25,840 L 25,570 L 25,570" />
+            <path d="M 40,845 L 15,845 L 15,750 L 25,750" />
+            <path d="M 40,930 L 25,930 L 25,660 L 25,660" />
+            <path d="M 40,935 L 15,935 L 15,840 L 25,840" />
 
-        <div class="semester-column">
-          <div class="semester-header">Semester 3</div>
-          <div class="course-box" id="pancasila">Pancasila</div>
-          <div class="course-box" id="bing2">Bahasa Inggris<br />Teknik 2</div>
-          <div class="course-box" id="eldi">Elektronika Digital</div>
-          <div class="course-box" id="inst_panel_dist">Instalasi Panel Distribusi</div>
-          <div class="course-box" id="ranc_panel_dist">Rancangan Panel Distribusi</div>
-          <div class="course-box" id="motor_listrik">Motor-motor Listrik</div>
-          <div class="course-box" id="tek_baterai">Teknologi Baterai</div>
-          <div class="course-box" id="algo">Algoritma dan Pemrograman</div>
-          <div class="course-box" id="prak_elektronika">Praktikum Elektronika</div>
-          <div class="course-box" id="prak_instalasi2">Praktik Instalasi<br />Kelistrikan 2</div>
-        </div>
+            <path d="M 370,120 L 350,120 L 350,210 L 355,210" />
+            <path d="M 370,210 L 355,210 L 355,480 L 355,480" />
+            <path d="M 370,300 L 355,300 L 355,390 L 355,390" />
+            <path d="M 370,395 L 345,395 L 345,300 L 355,300" />
+            <path d="M 370,390 L 355,390 L 355,480 L 355,480" />
+            <path d="M 370,485 L 345,485 L 345,210 L 355,210" />
+            <path d="M 370,480 L 355,480 L 355,750 L 355,750" />
+            <path d="M 370,755 L 345,755 L 345,480 L 355,480" />
+            <path d="M 370,570 L 355,570 L 355,660 L 355,660" />
+            <path d="M 370,575 L 345,575 L 345,840 L 355,840" />
+            <path d="M 370,665 L 345,665 L 345,570 L 355,570" />
+            <path d="M 370,845 L 345,845 L 345,570 L 355,570" />
+            <path d="M 370,930 L 355,930 L 355,750 L 355,750" />
 
-        <div class="semester-column">
-          <div class="semester-header">Semester 4</div>
-          <div class="course-box" id="kwn">Kewarga-negaraan</div>
-          <div class="course-box" id="solar_sel">Instalasi Panel Solar Sel</div>
-          <div class="course-box" id="pembangkit">Pembangkit Tenaga Listrik</div>
-          <div class="course-box" id="elda">Elektronika Daya</div>
-          <div class="course-box" id="pengaturan_motor">Penggunaan dan Pengaturan Motor Listrik</div>
-          <div class="course-box" id="iot">Aplikasi Internet of Things</div>
-          <div class="course-box" id="inovasi_digital">Inovasi Teknologi Digital</div>
-          <div class="course-box" id="prak_motor">Praktikum Motor - Motor Listrik</div>
-          <div class="course-box" id="prak_inst_industri">Praktik Instalasi Industri</div>
-        </div>
+            <path d="M 700,120 L 680,120 L 680,210 L 685,210" />
+            <path d="M 700,215 L 670,215 L 670,120 L 685,120" />
+            <path d="M 700,210 L 685,210 L 685,300 L 685,300" />
+            <path d="M 700,300 L 680,300 L 680,660 L 685,660" />
+            <path d="M 700,665 L 670,665 L 670,300 L 685,300" />
+            <path d="M 700,390 L 685,390 L 685,480 L 685,480" />
+            <path d="M 700,485 L 670,485 L 670,390 L 685,390" />
+            <path d="M 700,480 L 685,480 L 685,570 L 685,570" />
+            <path d="M 700,575 L 670,575 L 670,480 L 685,480" />
+            <path d="M 700,750 L 685,750 L 685,840 L 685,840" />
+            <path d="M 700,845 L 670,845 L 670,300 L 685,300" />
 
-        <div class="semester-column">
-          <div class="semester-header">Semester 5</div>
-          <div class="course-box" id="bindonesia">Bahasa Indonesia</div>
-          <div class="course-box" id="distribusi">Distribusi Tenaga Listrik</div>
-          <div class="course-box" id="sistem_kendali">Sistem Kendali</div>
-          <div class="course-box" id="utilitas">Instalasi Utilitas Industri dan Komersial</div>
-          <div class="course-box" id="mikro">Sistem Mikrokontroler</div>
-          <div class="course-box" id="konverter">Teknologi Konverter</div>
-          <div class="course-box" id="prak_elda">Praktikum Elektronika Daya dan Pengaturan</div>
-          <div class="course-box" id="prak_rawat">Praktik Pemeliharaan dan Perbaikan</div>
-        </div>
+            <path d="M 1030,210 L 1010,210 L 1010,120 L 1015,120" />
+            <path d="M 1030,300 L 1015,300 L 1015,480 L 1015,480" />
+            <path d="M 1030,485 L 995,485 L 995,300 L 1015,300" />
+            <path d="M 1030,390 L 1010,390 L 1010,840 L 1015,840" />
+            <path d="M 1030,845 L 990,845 L 990,390 L 1015,390" />
+            <path d="M 1030,480 L 1015,480 L 1015,660 L 1015,660" />
+            <path d="M 1030,665 L 995,665 L 995,480 L 1015,480" />
+            <path d="M 1030,570 L 1015,570 L 1015,660 L 1015,660" />
+            <path d="M 1030,660 L 1010,660 L 1010,570 L 1015,570" />
+            <path d="M 1030,750 L 1015,750 L 1015,840 L 1015,840" />
 
-        <div class="semester-column">
-          <div class="semester-header">Semester 6</div>
-          <div class="course-box" id="mandarin">Bahasa Mandarin</div>
-          <div class="course-box" id="manajemen_energi">Manajemen Energi Listrik</div>
-          <div class="course-box" id="panel_surya">Sistem Panel Surya</div>
-          <div class="course-box" id="konversi_energi">Konversi Energi Listrik</div>
-          <div class="course-box" id="adaptif_digital">Teknologi Adaptif Digitalisasi</div>
-          <div class="course-box" id="storage">Teknologi Penyimpanan Energi Listrik</div>
-          <div class="course-box" id="prak_storage">Praktikum Sistem Penyimpanan Energi Listrik</div>
-          <div class="course-box" id="prak_ebt">Praktik Instalasi Tegangan Menengah & EBT</div>
-        </div>
+            <path d="M 1360,120 L 1340,120 L 1340,210 L 1345,210" />
+            <path d="M 1360,210 L 1345,210 L 1345,660 L 1345,660" />
+            <path d="M 1360,665 L 1325,665 L 1325,210 L 1345,210" />
+            <path d="M 1360,210 L 1340,210 L 1340,570 L 1345,570" />
+            <path d="M 1360,575 L 1325,575 L 1325,210 L 1345,210" />
+            <path d="M 1360,300 L 1345,300 L 1345,480 L 1345,480" />
+            <path d="M 1360,485 L 1325,485 L 1325,300 L 1345,300" />
+            <path d="M 1360,390 L 1345,390 L 1345,480 L 1345,480" />
+            <path d="M 1360,480 L 1340,480 L 1340,390 L 1345,390" />
+            <path d="M 1360,570 L 1345,570 L 1345,660 L 1345,660" />
+            <path d="M 1360,660 L 1340,660 L 1340,570 L 1345,570" />
+            <path d="M 1360,750 L 1345,750 L 1345,840 L 1345,840" />
+            <path d="M 1360,845 L 1325,845 L 1325,480 L 1345,480" />
 
-        <div class="semester-column">
-          <div class="semester-header">Semester 7</div>
-          <div class="course-box" id="karya_ilmiah">Penulisan Karya Ilmiah</div>
-          <div class="course-box" id="inovasi_projek">Inovasi Projek</div>
-          <div class="course-box" id="wirausaha">Kewirausahaan</div>
-          <div class="course-box" id="etika_profesi">Etika Profesi</div>
-          <div class="course-box" id="k3lh">Keselamatan, Kesehatan Kerja dan Lingkungan</div>
-          <div class="course-box" id="man_projek">Manajemen Proyek</div>
-          <div class="course-box" id="man_operasi">Manajemen Operasi Ketenagalistrikan</div>
-        </div>
+            <path d="M 1690,210 L 1675,210 L 1675,570 L 1675,570" />
+            <path d="M 1690,550 L 1655,550 L 1655,210 L 1675,210" />
+            <path d="M 1690,300 L 1675,300 L 1675,840 L 1675,840" />
+            <path d="M 1690,845 L 1655,845 L 1655,300 L 1675,300" />
+            <path d="M 1690,390 L 1675,390 L 1675,570 L 1675,570" />
+            <path d="M 1690,545 L 1670,545 L 1670,390 L 1675,390" />
+            <path d="M 1690,570 L 1675,570 L 1675,660 L 1675,660" />
+            <path d="M 1690,665 L 1655,665 L 1655,570 L 1675,570" />
+            <path d="M 1690,750 L 1675,750 L 1675,840 L 1675,840" />
 
-        <div class="semester-column">
-          <div class="semester-header">Semester 8</div>
-          <div class="course-box gap-large" id="magang">Magang Industri</div>
-          <div class="course-box gap-large" id="skripsi">Skripsi</div>
-        </div>
+            <path d="M 2020,120 L 2005,120 L 2005,210 L 2005,210" />
+            <path d="M 2020,215 L 1985,215 L 1985,120 L 2005,120" />
+            <path d="M 2020,300 L 2005,300 L 2005,480 L 2005,480" />
+            <path d="M 2020,390 L 2000,390 L 2000,480 L 2005,480" />
+            <path d="M 2020,485 L 1980,485 L 1980,390 L 2005,390" />
+            <path d="M 2020,480 L 2005,480 L 2005,570 L 2005,570" />
+            <path d="M 2020,210 L 2000,210 L 2000,570 L 2005,570" />
+            <path d="M 2020,575 L 1980,575 L 1980,210 L 2005,210" />
+
+            <path d="M 2350,120 L 2335,120 L 2335,210 L 2335,210" />
+            <path d="M 2350,215 L 2320,215 L 2320,120 L 2335,120" />
+
+            <path d="M 220,120 L 295,120 L 295,120 L 355,120" />
+            <path d="M 220,210 L 300,210 L 300,120 L 355,120" />
+            <path d="M 220,300 L 295,300 L 295,390 L 355,390" />
+            <path d="M 220,390 L 305,390 L 305,210 L 355,210" />
+            <path d="M 220,385 L 295,385 L 295,480 L 355,480" />
+            <path d="M 220,480 L 300,480 L 300,750 L 355,750" />
+            <path d="M 220,570 L 305,570 L 305,480 L 355,480" />
+            <path d="M 220,565 L 295,565 L 295,750 L 355,750" />
+            <path d="M 220,660 L 295,660 L 295,660 L 355,660" />
+            <path d="M 220,750 L 300,750 L 300,660 L 355,660" />
+            <path d="M 220,840 L 295,840 L 295,570 L 355,570" />
+            <path d="M 220,845 L 305,845 L 305,840 L 355,840" />
+            <path d="M 220,930 L 300,930 L 300,840 L 355,840" />
+            <path d="M 220,935 L 295,935 L 295,930 L 355,930" />
+
+            <path d="M 220,115 L 260,115 L 260,50 L 1010,50 L 1010,120 L 1015,120" />
+            <path d="M 220,110 L 265,110 L 265,40 L 1990,40 L 1990,390 L 2005,390" />
+            <path d="M 220,205 L 270,205 L 270,60 L 1015,60 L 1015,120 L 1015,120" />
+            <path d="M 220,200 L 275,200 L 275,30 L 1980,30 L 1980,390 L 2005,390" />
+            <path d="M 220,195 L 280,195 L 280,20 L 1970,20 L 1970,480 L 2005,480" />
+            <path d="M 220,295 L 285,295 L 285,345 L 670,345 L 670,390 L 685,390" />
+            <path d="M 220,290 L 290,290 L 290,255 L 1000,255 L 1000,390 L 1015,390" />
+            <path d="M 220,475 L 280,475 L 280,435 L 670,435 L 670,300 L 685,300" />
+            <path d="M 220,485 L 270,485 L 270,525 L 1010,525 L 1010,480 L 1015,480" />
+            <path d="M 220,560 L 275,560 L 275,535 L 675,535 L 675,390 L 685,390" />
+            <path d="M 220,655 L 270,655 L 270,615 L 670,615 L 670,570 L 685,570" />
+            <path d="M 220,745 L 275,745 L 275,705 L 675,705 L 675,480 L 685,480" />
+
+            <path d="M 550,120 L 590,120 L 590,50 L 1980,50 L 1980,390 L 2005,390" />
+            <path d="M 550,115 L 595,115 L 595,40 L 1990,40 L 1990,480 L 2005,480" />
+            <path d="M 550,210 L 600,210 L 600,255 L 1330,255 L 1330,390 L 1345,390" />
+            <path d="M 550,205 L 605,205 L 605,165 L 1000,165 L 1000,480 L 1015,480" />
+            <path d="M 550,300 L 625,300 L 625,210 L 685,210" />
+            <path d="M 550,295 L 610,295 L 610,245 L 1660,245 L 1660,300 L 1675,300" />
+            <path d="M 550,390 L 625,390 L 625,390 L 685,390" />
+            <path d="M 550,385 L 615,385 L 615,345 L 1650,345 L 1650,300 L 1675,300" />
+            <path d="M 550,480 L 630,480 L 630,390 L 685,390" />
+            <path d="M 550,475 L 620,475 L 620,435 L 1005,435 L 1005,480 L 1015,480" />
+            <path d="M 550,485 L 635,485 L 635,525 L 1320,525 L 1320,210 L 1345,210" />
+            <path d="M 550,570 L 625,570 L 625,750 L 685,750" />
+            <path d="M 550,565 L 635,565 L 635,525 L 1010,525 L 1010,750 L 1015,750" />
+            <path d="M 550,660 L 625,660 L 625,570 L 685,570" />
+            <path d="M 550,655 L 640,655 L 640,615 L 1640,615 L 1640,210 L 1675,210" />
+            <path d="M 550,750 L 645,750 L 645,705 L 1310,705 L 1310,390 L 1345,390" />
+            <path d="M 550,745 L 650,745 L 650,715 L 1000,715 L 1000,660 L 1015,660" />
+            <path d="M 550,930 L 625,930 L 625,840 L 685,840" />
+            <path d="M 550,925 L 655,925 L 655,885 L 990,885 L 990,840 L 1015,840" />
+
+            <path d="M 880,120 L 955,120 L 955,210 L 1015,210" />
+            <path d="M 880,115 L 960,115 L 960,60 L 1340,60 L 1340,120 L 1345,120" />
+            <path d="M 880,110 L 965,110 L 965,70 L 1970,70 L 1970,120 L 2005,120" />
+            <path d="M 880,210 L 955,210 L 955,300 L 1015,300" />
+            <path d="M 880,205 L 970,205 L 970,165 L 1330,165 L 1330,300 L 1345,300" />
+            <path d="M 880,215 L 975,215 L 975,255 L 1670,255 L 1670,300 L 1675,300" />
+            <path d="M 880,300 L 955,300 L 955,480 L 1015,480" />
+            <path d="M 880,305 L 960,305 L 960,660 L 1015,660" />
+            <path d="M 880,390 L 1015,390" />
+            <path d="M 880,395 L 965,395 L 965,570 L 1015,570" />
+            <path d="M 880,480 L 955,480 L 955,750 L 1015,750" />
+            <path d="M 880,475 L 970,475 L 970,435 L 1340,435 L 1340,210 L 1345,210" />
+            <path d="M 880,485 L 975,485 L 975,525 L 1340,525 L 1340,570 L 1345,570" />
+            <path d="M 880,570 L 980,570 L 980,525 L 1660,525 L 1660,210 L 1675,210" />
+            <path d="M 880,565 L 985,565 L 985,435 L 1980,435 L 1980,210 L 2005,210" />
+            <path d="M 880,660 L 1015,660" />
+            <path d="M 880,655 L 990,655 L 990,615 L 1340,615 L 1340,390 L 1345,390" />
+            <path d="M 880,665 L 995,665 L 995,705 L 1670,705 L 1670,480 L 1675,480" />
+            <path d="M 880,750 L 1015,750" />
+            <path d="M 880,745 L 970,745 L 970,705 L 1660,705 L 1660,750 L 1675,750" />
+            <path d="M 880,840 L 955,840 L 955,480 L 1015,480" />
+            <path d="M 880,835 L 975,835 L 975,795 L 1340,795 L 1340,480 L 1345,480" />
+            <path d="M 880,845 L 980,845 L 980,885 L 1340,885 L 1340,840 L 1345,840" />
+
+            <path d="M 1210,120 L 1290,120 L 1290,80 L 1990,80 L 1990,210 L 2005,210" />
+            <path d="M 1210,210 L 1285,210 L 1285,120 L 1345,120" />
+            <path d="M 1210,205 L 1290,205 L 1290,165 L 1660,165 L 1660,120 L 1675,120" />
+            <path d="M 1210,200 L 1295,200 L 1295,60 L 1970,60 L 1970,120 L 2005,120" />
+            <path d="M 1210,300 L 1285,300 L 1285,300 L 1345,300" />
+            <path d="M 1210,295 L 1295,295 L 1295,255 L 1670,255 L 1670,300 L 1675,300" />
+            <path d="M 1210,390 L 1285,390 L 1285,210 L 1345,210" />
+            <path d="M 1210,395 L 1290,395 L 1290,660 L 1345,660" />
+            <path d="M 1210,480 L 1285,480 L 1285,480 L 1345,480" />
+            <path d="M 1210,475 L 1290,475 L 1290,300 L 1345,300" />
+            <path d="M 1210,485 L 1295,485 L 1295,390 L 1345,390" />
+            <path d="M 1210,570 L 1285,570 L 1285,390 L 1345,390" />
+            <path d="M 1210,565 L 1290,565 L 1290,525 L 1660,525 L 1660,480 L 1675,480" />
+            <path d="M 1210,660 L 1285,660 L 1285,390 L 1345,390" />
+            <path d="M 1210,655 L 1295,655 L 1295,615 L 1670,615 L 1670,480 L 1675,480" />
+            <path d="M 1210,665 L 1300,665 L 1300,705 L 1660,705 L 1660,390 L 1675,390" />
+            <path d="M 1210,750 L 1285,750 L 1285,750 L 1675,750" />
+            <path d="M 1210,745 L 1290,745 L 1290,705 L 1990,705 L 1990,570 L 2005,570" />
+            <path d="M 1210,840 L 1285,840 L 1285,840 L 1345,840" />
+            <path d="M 1210,845 L 1290,845 L 1290,750 L 1345,750" />
+
+            <path d="M 1540,120 L 1615,120 L 1615,120 L 1675,120" />
+            <path d="M 1540,115 L 1620,115 L 1620,70 L 1980,70 L 1980,120 L 2005,120" />
+            <path d="M 1540,110 L 1625,110 L 1625,60 L 1970,60 L 1970,570 L 2005,570" />
+            <path d="M 1540,210 L 1615,210 L 1615,570 L 1675,570" />
+            <path d="M 1540,205 L 1620,205 L 1620,165 L 1990,165 L 1990,300 L 2005,300" />
+            <path d="M 1540,300 L 1615,300 L 1615,300 L 1675,300" />
+            <path d="M 1540,305 L 1625,305 L 1625,660 L 1675,660" />
+            <path d="M 1540,390 L 1615,390 L 1615,480 L 1675,480" />
+            <path d="M 1540,395 L 1620,395 L 1620,390 L 1675,390" />
+            <path d="M 1540,480 L 1615,480 L 1615,300 L 1675,300" />
+            <path d="M 1540,570 L 1615,570 L 1615,570 L 1675,570" />
+            <path d="M 1540,565 L 1620,565 L 1620,525 L 1980,525 L 1980,300 L 2005,300" />
+            <path d="M 1540,660 L 1615,660 L 1615,570 L 1675,570" />
+            <path d="M 1540,655 L 1625,655 L 1625,615 L 1970,615 L 1970,300 L 2005,300" />
+            <path d="M 1540,665 L 1675,665" />
+            <path d="M 1540,750 L 1615,750 L 1615,705 L 1990,705 L 1990,570 L 2005,570" />
+            <path d="M 1540,840 L 1615,840 L 1615,885 L 1990,885 L 1990,210 L 2005,210" />
+
+            <path d="M 1870,120 L 1945,120 L 1945,210 L 2005,210" />
+            <path d="M 1870,115 L 1950,115 L 1950,570 L 2005,570" />
+            <path d="M 1870,210 L 1945,210 L 1945,210 L 2005,210" />
+            <path d="M 1870,205 L 1950,205 L 1950,570 L 2005,570" />
+            <path d="M 1870,300 L 1945,300 L 1945,210 L 2005,210" />
+            <path d="M 1870,390 L 1945,390 L 1945,210 L 2005,210" />
+            <path d="M 1870,545 L 1945,545 L 1945,210 L 2005,210" />
+            <path d="M 1870,570 L 1945,570 L 1945,300 L 2005,300" />
+            <path d="M 1870,660 L 1945,660 L 1945,210 L 2005,210" />
+            <path d="M 1870,665 L 1955,665 L 1955,705 L 2320,705 L 2320,300 L 2335,300" />
+            <path d="M 1870,750 L 1945,750 L 1945,570 L 2005,570" />
+            <path d="M 1870,745 L 1955,745 L 1955,210 L 2005,210" />
+            <path d="M 1870,840 L 1945,840 L 1945,210 L 2005,210" />
+
+            <path d="M 2200,120 L 2275,120 L 2275,300 L 2335,300" />
+            <path d="M 2200,210 L 2285,210 L 2285,300 L 2335,300" />
+            <path d="M 2200,300 L 2275,300 L 2275,210 L 2335,210" />
+            <path d="M 2200,570 L 2275,570 L 2275,300 L 2335,300" />
+          </g>
+
+          <g stroke="#475569" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+            <path d="M 25,120 L 40,120" />
+            <path d="M 25,210 L 40,210" />
+            <path d="M 25,300 L 40,300" />
+            <path d="M 25,390 L 40,390" />
+            <path d="M 25,570 L 40,570" />
+            <path d="M 25,660 L 40,660" />
+            <path d="M 25,750 L 40,750" />
+            <path d="M 25,840 L 40,840" />
+
+            <path d="M 355,120 L 370,120" />
+            <path d="M 355,210 L 370,210" />
+            <path d="M 355,300 L 370,300" />
+            <path d="M 355,390 L 370,390" />
+            <path d="M 355,480 L 370,480" />
+            <path d="M 355,570 L 370,570" />
+            <path d="M 355,660 L 370,660" />
+            <path d="M 355,750 L 370,750" />
+            <path d="M 355,840 L 370,840" />
+            <path d="M 355,930 L 370,930" />
+
+            <path d="M 685,120 L 700,120" />
+            <path d="M 685,210 L 700,210" />
+            <path d="M 685,300 L 700,300" />
+            <path d="M 685,390 L 700,390" />
+            <path d="M 685,480 L 700,480" />
+            <path d="M 685,570 L 700,570" />
+            <path d="M 685,660 L 700,660" />
+            <path d="M 685,750 L 700,750" />
+            <path d="M 685,840 L 700,840" />
+
+            <path d="M 1015,120 L 1030,120" />
+            <path d="M 1015,210 L 1030,210" />
+            <path d="M 1015,300 L 1030,300" />
+            <path d="M 1015,390 L 1030,390" />
+            <path d="M 1015,480 L 1030,480" />
+            <path d="M 1015,570 L 1030,570" />
+            <path d="M 1015,660 L 1030,660" />
+            <path d="M 1015,750 L 1030,750" />
+            <path d="M 1015,840 L 1030,840" />
+
+            <path d="M 1345,120 L 1360,120" />
+            <path d="M 1345,210 L 1360,210" />
+            <path d="M 1345,300 L 1360,300" />
+            <path d="M 1345,390 L 1360,390" />
+            <path d="M 1345,480 L 1360,480" />
+            <path d="M 1345,570 L 1360,570" />
+            <path d="M 1345,660 L 1360,660" />
+            <path d="M 1345,750 L 1360,750" />
+            <path d="M 1345,840 L 1360,840" />
+
+            <path d="M 1675,120 L 1690,120" />
+            <path d="M 1675,210 L 1690,210" />
+            <path d="M 1675,300 L 1690,300" />
+            <path d="M 1675,390 L 1690,390" />
+            <path d="M 1675,480 L 1690,480" />
+            <path d="M 1675,570 L 1690,570" />
+            <path d="M 1675,660 L 1690,660" />
+            <path d="M 1675,750 L 1690,750" />
+            <path d="M 1675,840 L 1690,840" />
+
+            <path d="M 2005,120 L 2020,120" />
+            <path d="M 2005,210 L 2020,210" />
+            <path d="M 2005,300 L 2020,300" />
+            <path d="M 2005,390 L 2020,390" />
+            <path d="M 2005,480 L 2020,480" />
+            <path d="M 2005,570 L 2020,570" />
+
+            <path d="M 2335,120 L 2350,120" />
+            <path d="M 2335,210 L 2350,210" />
+            <path d="M 2335,300 L 2350,300" />
+          </g>
+        </svg>
+
+        <div class="course-box sem-1 row-1" id="agama">Agama</div>
+        <div class="course-box sem-1 row-2" id="etika">Etika & Budaya SU</div>
+        <div class="course-box sem-1 row-3" id="fisika">Fisika</div>
+        <div class="course-box sem-1 row-4" id="mat1">Matematika 1</div>
+        <div class="course-box sem-1 row-5" id="el_analog">Elektronika Analog</div>
+        <div class="course-box sem-1 row-6" id="rl1">Rangkaian Listrik 1</div>
+        <div class="course-box sem-1 row-7" id="gambar">Gambar Teknik</div>
+        <div class="course-box sem-1 row-8" id="ril1">Rancangan Inst. Listrik 1</div>
+        <div class="course-box sem-1 row-9" id="il1">Instalasi Listrik 1</div>
+        <div class="course-box sem-1 row-10" id="prak_mekanik">Prak Dasar Tek Mekanik</div>
+
+        <div class="course-box sem-2 row-1" id="pancasila">Pancasila</div>
+        <div class="course-box sem-2 row-2" id="mat2">Matematika 2</div>
+        <div class="course-box sem-2 row-3" id="kimia">Kimia</div>
+        <div class="course-box sem-2 row-4" id="bahan">Ilmu Bahan</div>
+        <div class="course-box sem-2 row-5" id="rl2">Rangkaian Listrik 2</div>
+        <div class="course-box sem-2 row-6" id="il2">Instalasi Listrik 2</div>
+        <div class="course-box sem-2 row-7" id="ril2">Rancangan Inst. Listrik 2</div>
+        <div class="course-box sem-2 row-8" id="instrumentasi">Instrumentasi</div>
+        <div class="course-box sem-2 row-9" id="prak_ik1">Prak Inst. Kelistrikan 1</div>
+        <div class="course-box sem-2 row-10" id="prak_ld">Praktikum Listrik Dasar</div>
+
+        <div class="course-box sem-3 row-1" id="bindonesia">Bahasa Indonesia</div>
+        <div class="course-box sem-3 row-2" id="tek_baterai">Teknologi Baterai</div>
+        <div class="course-box sem-3 row-3" id="el_digital">Elektronika Digital</div>
+        <div class="course-box sem-3 row-4" id="mesin_listrik">Mesin Listrik</div>
+        <div class="course-box sem-3 row-5" id="ip_dist">Instalasi Panel Distribusi</div>
+        <div class="course-box sem-3 row-6" id="rp_dist">Rancangan Panel Distribusi</div>
+        <div class="course-box sem-3 row-7" id="pemrograman">Pemrograman Komputer</div>
+        <div class="course-box sem-3 row-8" id="prak_ik2">Prak Inst. Kelistrikan 2</div>
+        <div class="course-box sem-3 row-9" id="prak_elektronika">Praktikum Elektronika</div>
+
+        <div class="course-box sem-4 row-1" id="kwn">Kewarganegaraan</div>
+        <div class="course-box sem-4 row-2" id="bing1">Bahasa Inggris 1</div>
+        <div class="course-box sem-4 row-3" id="ips">Instalasi Panel Surya</div>
+        <div class="course-box sem-4 row-4" id="pembangkit">Pembangkit Tenaga Listrik</div>
+        <div class="course-box sem-4 row-5" id="eld_1">Elektronika Daya 1</div>
+        <div class="course-box sem-4 row-6" id="ranc_motor">Ranc Pengaturan Motor</div>
+        <div class="course-box sem-4 row-7" id="iot">Sistem Mikrokontroler & IoT</div>
+        <div class="course-box sem-4 row-8" id="prak_industri">Praktik Instalasi Industri</div>
+        <div class="course-box sem-4 row-9" id="prak_mesin">Prak Mesin-Mesin Listrik</div>
+
+        <div class="course-box sem-5 row-1" id="bing2">Bahasa Inggris 2</div>
+        <div class="course-box sem-5 row-2" id="distribusi">Distribusi Tenaga Listrik</div>
+        <div class="course-box sem-5 row-3" id="sistem_panel">Sistem Panel Surya</div>
+        <div class="course-box sem-5 row-4" id="sistem_kendali">Sistem Kendali</div>
+        <div class="course-box sem-5 row-5" id="eld_2">Elektronika Daya 2</div>
+        <div class="course-box sem-5 row-6" id="sistem_proteksi">Sistem Proteksi & Bumi</div>
+        <div class="course-box sem-5 row-7" id="operasi_sistem">Operasi Sistem Tenaga</div>
+        <div class="course-box sem-5 row-8" id="prak_perbaikan">Prak Maint. & Perbaikan</div>
+        <div class="course-box sem-5 row-9" id="prak_eld">Prak Eldaya & Pengaturan</div>
+
+        <div class="course-box sem-6 row-1" id="mandarin">Bahasa Mandarin</div>
+        <div class="course-box sem-6 row-2" id="utilitas">Inst. Utilitas Ind. & Kom</div>
+        <div class="course-box sem-6 row-3" id="storage">Tek Penyimpanan Energi</div>
+        <div class="course-box sem-6 row-4" id="digitalisasi">Tek Digitalisasi Sistem</div>
+        <div class="course-box sem-6 row-5" id="otomasi">Sistem Otomasi Industri</div>
+        <div class="course-box sem-6 row-6" id="kualitas_daya">Kualitas Daya Listrik</div>
+        <div class="course-box sem-6 row-7" id="man_energi">Manajemen Energi Listrik</div>
+        <div class="course-box sem-6 row-8" id="prak_ebt">Prak Inst Teg Menengah EBT</div>
+        <div class="course-box sem-6 row-9" id="prak_storage">Prak Sistem Penyimpanan</div>
+
+        <div class="course-box sem-7 row-1" id="karya_ilmiah">Penulisan Karya Ilmiah</div>
+        <div class="course-box sem-7 row-2" id="proyek_rekayasa">Proyek Rekayasa Ketenaga</div>
+        <div class="course-box sem-7 row-3" id="man_operasi">Man Operasi Ketenaga</div>
+        <div class="course-box sem-7 row-4" id="etika_profesi">Etika Profesi</div>
+        <div class="course-box sem-7 row-5" id="k3">K3 & Lingkungan</div>
+        <div class="course-box sem-7 row-6" id="magang">Magang Industri</div>
+
+        <div class="course-box sem-8 row-1" id="wirausaha">Kewirausahaan</div>
+        <div class="course-box sem-8 row-2" id="man_projek">Manajemen Proyek</div>
+        <div class="course-box sem-8 row-3" id="skripsi">Skripsi</div>
       </div>
     </div>
-
-    <script>
-      // Fungsi cerdas untuk menghubungkan 2 kotak mata kuliah menggunakan ID elemen HTML
-      function buatGarisHubung(idDari, idKe) {
-        const dariElemen = document.getElementById(idDari);
-        const keElemen = document.getElementById(idKe);
-        const svg = document.getElementById('svg-canvas');
-        const wrapper = document.getElementById('canvas-container');
-
-        if (!dariElemen || !keElemen) return;
-
-        // Mengambil posisi kotak relatif terhadap container bungkusannya
-        const rectWrapper = wrapper.getBoundingClientRect();
-        const rectDari = dariElemen.getBoundingClientRect();
-        const rectKe = keElemen.getBoundingClientRect();
-
-        // Titik start di TENGAH KANAN kotak asal
-        const x1 = rectDari.right - rectWrapper.left;
-        const y1 = rectDari.top + rectDari.height / 2 - rectWrapper.top;
-
-        // Titik end di TENGAH KIRI kotak tujuan
-        const x2 = rectKe.left - rectWrapper.left;
-        const y2 = rectKe.top + rectKe.height / 2 - rectWrapper.top;
-
-        // Membuat element garis patah-patah (Polyline) agar jalurnya ber-siku rapi seperti di gambar asli
-        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-
-        // Mengatur jalur belokan tengah (Z-shape routing)
-        const xMid = x1 + (x2 - x1) / 2;
-        const poin = `${x1},${y1} ${xMid},${y1} ${xMid},${y2} ${x2},${y2}`;
-
-        polyline.setAttribute('points', poin);
-        polyline.setAttribute('stroke', '#94a3b8');
-        polyline.setAttribute('stroke-width', '1.5');
-        polyline.setAttribute('fill', 'none');
-        polyline.setAttribute('marker-end', 'url(#arrow)'); // Menambahkan mata panah
-
-        svg.appendChild(polyline);
-      }
-
-      // Fungsi inisialisasi penggambaran semua relasi garis
-      function gambarSemuaGaris() {
-        // Kosongkan kanvas dulu sebelum digambar ulang (mencegah duplikasi saat resize)
-        const svg = document.getElementById('svg-canvas');
-        const markers = svg.querySelector('defs');
-        svg.innerHTML = '';
-        svg.appendChild(markers);
-
-        // --- DAFTAR RELASI GARIS (Sesuai Gambar Prasyarat Anda) ---
-
-        // Alur Utama Bagian Atas (MK Umum)
-        buatGarisHubung('etika', 'agama');
-        buatGarisHubung('agama', 'pancasila');
-        buatGarisHubung('pancasila', 'kwn');
-        buatGarisHubung('kwn', 'bindonesia');
-        buatGarisHubung('bindonesia', 'mandarin');
-        buatGarisHubung('mandarin', 'karya_ilmiah');
-        buatGarisHubung('karya_ilmiah', 'magang');
-
-        // Alur Matematika & Rangkaian
-        buatGarisHubung('mattek1', 'mattek2');
-        buatGarisHubung('mattek2', 'eldi');
-        buatGarisHubung('rangkaian1', 'rangkaian2');
-        buatGarisHubung('rangkaian2', 'rangk_elektronika');
-        buatGarisHubung('rangk_elektronika', 'prak_elektronika');
-        buatGarisHubung('prak_elektronika', 'elda');
-
-        // Alur Instalasi & Distribusi
-        buatGarisHubung('instalasi1', 'instalasi2');
-        buatGarisHubung('instalasi2', 'inst_panel_dist');
-        buatGarisHubung('inst_panel_dist', 'solar_sel');
-        buatGarisHubung('solar_sel', 'distribusi');
-        buatGarisHubung('distribusi', 'manajemen_energi');
-
-        // Alur Sistem Kendali & IoT
-        buatGarisHubung('algo', 'iot');
-        buatGarisHubung('iot', 'mikro');
-        buatGarisHubung('mikro', 'adaptif_digital');
-        buatGarisHubung('sistem_kendali', 'panel_surya');
-
-        // Menuju Skripsi (Semester 8)
-        buatGarisHubung('inovasi_projek', 'skripsi');
-        buatGarisHubung('man_projek', 'skripsi');
-        buatGarisHubung('wirausaha', 'skripsi');
-        buatGarisHubung('man_operasi', 'skripsi');
-        buatGarisHubung('storage', 'skripsi');
-      }
-
-      // Gambar garis pertama kali saat web dibuka
-      window.addEventListener('load', gambarSemuaGaris);
-
-      // Otomatis gambar ulang kalau ukuran layar browser diubah (Responsive)
-      window.addEventListener('resize', gambarSemuaGaris);
-    </script>
   </body>
 </html>
